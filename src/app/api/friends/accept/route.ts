@@ -31,16 +31,25 @@ export async function POST(req: Request) {
             return new Response('No friend request', {status: 400})
         }
 
+        const[ userJson, friendJson ] = (await Promise.all([
+            fetchRedis('get', `user:${session.user.id}`),
+            fetchRedis('get', `user:${idToAdd}`)
+        ])) as [ string, string ]
+
+        const user = JSON.parse(userJson)
+
+        const friend = JSON.parse(friendJson)
+
         // notify added user
-        pusherServer.trigger(toPusherKey(`user:${idToAdd}:friends`), 'new_friend', {})
 
-        await db.sadd(`user:${session.user.id}:friends`, idToAdd) // add requester as friend to logged-in user's list
-
-        await db.sadd(`user:${idToAdd}:friends`, session.user.id) // add logged-in user as friend to requester's list
-        
-        // await db.srem(`user:${idToAdd}:outbound_friend_requests`, session.user.id)
-
-        await db.srem(`user:${session.user.id}:incoming_friend_requests`, idToAdd)
+        await Promise.all([
+            pusherServer.trigger(toPusherKey(`user:${idToAdd}:friends`), 'new_friend', user),
+            pusherServer.trigger(toPusherKey(`user:${session.user.id}:friends`), 'new_friend', friend),
+            pusherServer.trigger(toPusherKey(`user:${idToAdd}:friends`), 'new_friend', {}),
+            db.sadd(`user:${session.user.id}:friends`, idToAdd), // add requester as friend to logged-in user's list
+            db.sadd(`user:${idToAdd}:friends`, session.user.id), // add logged-in user as friend to requester's list
+            db.srem(`user:${session.user.id}:incoming_friend_requests`, idToAdd)
+        ])
 
         return new Response('OK');
     } catch (error) {
