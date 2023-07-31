@@ -42,25 +42,25 @@ const Layout = async ({children}: LayoutProps) => {
         <div className='md:hidden'>
             <MobileChatLayout friends={friends} session={session} sidebarOptions={sidebarOptions} unseenRequestCount={unseenRequestCount} />
         </div>
-        <div className='hidden md:flex h-full w-full max-w-xs grow flex-col gap-y-5 overflow-y-auto border-r border-grey-200 bg-white px-6'>
+        <div className='hidden md:flex h-full w-full max-w-xs grow flex-col gap-y-5 overflow-y-auto border-r border-gray-300 bg-white px-6'>
             <Link href='/dashboard' className='flex h-16 shrink-0 items-center'>
-                <Icons.Logo className='h-8 w-auto text-indigo-600' />
+                <Icons.Logo className='h-8 w-auto text-stone-600 mr-12' />
+                <p className='text-lg font-bold'>LetsChat</p>
             </Link>
-
-            {friends.length > 0 ? (
-                <div className='text-xs font-semibold leading-6 text-gray-400'>
-                    Your Chats
-                </div>
-            ) : null}
             
             <nav className='flex flex-1 flex-col'>
-                <ul role='list' className='flex flex-1 flex-col gap-y-7'>
+                <ul role='list' className='flex flex-1 flex-col gap-y-5'>
                     <li>
+                        {friends.length > 0 ? (
+                            <div className='text-sm font-semibold leading-6 text-gray-400'>
+                                Your Chats
+                            </div>
+                        ) : null}
                         <SidebarChatList friends={friends} sessionId={session.user.id} />
                     </li>
 
                     <li>
-                        <div className='text-xs font-semibold leading-6 text-gray-400'>
+                        <div className='text-sm font-semibold leading-6 text-gray-400'>
                             Overview
                         </div>
 
@@ -69,8 +69,8 @@ const Layout = async ({children}: LayoutProps) => {
                                 const Icon = Icons[option.Icon]
                                 return (
                                     <li key={option.id}>
-                                        <Link href={option.href} className='text-gray-800 hover:text-indigo-600 hover:bg-gray-50 group flex gap-3 rounded-md p-2 leading-6 font-semibold'>
-                                            <span className='text-gray-400 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white'>
+                                        <Link href={option.href} className='text-gray-800 hover:text-sky-700 hover:bg-gray-200 group flex gap-3 rounded-md p-2 leading-6 font-semibold'>
+                                            <span className='text-gray-500 border-gray-500 group-hover:border-sky-700 group-hover:text-sky-700 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white'>
                                                 <Icon className='h-4 w-4' />
                                             </span>
 

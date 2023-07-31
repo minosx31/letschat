@@ -3,7 +3,7 @@
 import { pusherClient } from '@/lib/pusher'
 import { toPusherKey } from '@/lib/utils'
 import axios from 'axios'
-import { Check, UserPlus, X } from 'lucide-react'
+import { Check, User2, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { FC, useState, useEffect} from 'react'
 
@@ -56,17 +56,27 @@ const FriendRequests: FC<FriendRequestsProps> = ({ incomingFriendRequests, sessi
         ) : (
             friendRequests.map((request) => (
                 <div key={request.senderId} className='flex gap-4 items-center'>
-                    <UserPlus className='text-black' />
-                    <p className='font-medium text-lg'>{request.senderEmail}</p>
-                    <button onClick={() => acceptFriend(request.senderId)} aria-label='accept friend' className='w-8 h-8 bg-indigo-600 hover:bg-indigo-700 grid place-items-center rounded-full transition hover:shadow-md'>
-                        <Check className='font-semibold text-white w-3/4 h-3/4' />
-                    </button>
+                    <div className="h-6 w-6 flex justify-center items-center text-black border border-black rounded-xl">
+                        <User2 className='h-4 w-4' />
+                    </div>
                     
-                    <button onClick={() => rejectFriend(request.senderId)} aria-label='reject friend' className='w-8 h-8 bg-red-600 hover:bg-red-700 grid place-items-center rounded-full transition hover:shadow-md'>
-                        <X className='font-semibold text-white w-3/4 h-3/4' />
-                    </button>
+
+                    <div className="flex-1 align-start">
+                        <p className='font-medium text-lg'>{request.senderEmail}</p>
+                    </div>
+                    
+                    <div className='flex flex-1 justify-start gap-2'>
+                        <button onClick={() => acceptFriend(request.senderId)} aria-label='accept friend' className='w-8 h-8 bg-emerald-600 hover:bg-emerald-700 grid place-items-center rounded-full transition hover:shadow-md'>
+                            <Check className='font-semibold text-white w-3/4 h-3/4' />
+                        </button>
+                        
+                        <button onClick={() => rejectFriend(request.senderId)} aria-label='reject friend' className='w-8 h-8 bg-red-600 hover:bg-red-700 grid place-items-center rounded-full transition hover:shadow-md'>
+                            <X className='font-semibold text-white w-3/4 h-3/4' />
+                        </button>
+                    </div>
+                    
                 </div>
-            ))
+        ))
         )}
     </>
   )

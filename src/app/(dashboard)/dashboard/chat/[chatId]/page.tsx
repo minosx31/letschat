@@ -1,13 +1,11 @@
+import ChatInput from '@/components/ChatInput'
+import Messages from '@/components/Messages'
 import { fetchRedis } from '@/helpers/redis'
 import { authOptions } from '@/lib/auth'
-import { db } from '@/lib/db'
 import { messageArrayValidator } from '@/lib/validations/message'
-import Messages from '@/components/Messages'
-import ChatInput from '@/components/ChatInput'
 import { getServerSession } from 'next-auth'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
-import { FC } from 'react'
 
 interface PageProps {
     params: {
@@ -57,7 +55,7 @@ const page = async ({params}: PageProps) => {
         <div className='flex sm:items-center justify-betwee py-3 border-b-2 border-gray-200'>
           <div className='relative flex items-center space-x-4'>
             <div className='relative'>
-              <div className='relative w-8 sm:w-12 h-8 sm: h-12'>
+              <div className='relative h-8 w-8 sm:h-12 sm:w-12'>
                 <Image fill referrerPolicy='no-referrer' src={chatPartner.image} alt={`${chatPartner.name} profile picture`} className='rounded-full'/>
               </div>
             </div>
